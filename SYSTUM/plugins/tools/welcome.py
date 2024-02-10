@@ -15,8 +15,7 @@ class WelDatabase:
         return chat_id in self.data
 
     async def add_wlcm(self, chat_id):
-        self.data[chat_id] = {}  # You can store additional information related to the chat
-        # For example, self.data[chat_id]['some_key'] = 'some_value'
+        self.data[chat_id] = {}
 
     async def rm_wlcm(self, chat_id):
         if chat_id in self.data:
@@ -32,9 +31,6 @@ class temp:
     U_NAME = None
     B_NAME = None
 
-# ... (rest of your code remains unchanged)
-
-# ... (FUCK you randi ke bacvhhe )
 def circle(pfp, size=(500, 500)):
     pfp = pfp.resize(size, Image.LANCZOS).convert("RGBA")
     bigsize = (pfp.size[0] * 3, pfp.size[1] * 3)
@@ -46,32 +42,24 @@ def circle(pfp, size=(500, 500)):
     pfp.putalpha(mask)
     return pfp
 
-def welcomepic(pic, user, chat, id, uname):
+def welcomepic(pic, user, chatname, id, uname):
     background = Image.open("SYSTUM/assets/bg2.jpg")
     pfp = Image.open(pic).convert("RGBA")
     pfp = circle(pfp)
-    pfp = pfp.resize((450, 450))
+    pfp = pfp.resize((825, 824))
     draw = ImageDraw.Draw(background)
-    font = ImageFont.truetype('SYSTUM/assets/font.ttf', size=40)
+    font = ImageFont.truetype('SYSTUM/assets/font.ttf', size=110)
     welcome_font = ImageFont.truetype('SYSTUM/assets/font.ttf', size=60)
-    draw.text((30, 300), f'NAME: {user}', fill=(255, 255, 255), font=font)
-    draw.text((30, 370), f'ID: {id}', fill=(255, 255, 255), font=font)
-    draw.text((30, 40), f"{chat}", fill=(225, 225, 225), font=welcome_font)
-    draw.text((30, 430), f"USERNAME : {uname}", fill=(255, 255, 255), font=font)
-    pfp_position = (671, 134)
+    draw.text((2100, 1420), f'ID: {id}', fill=(12000, 12000, 12000), font=font)
+    pfp_position = (1990, 435)
     background.paste(pfp, pfp_position, pfp)
     background.save(f"downloads/welcome#{id}.png")
     return f"downloads/welcome#{id}.png"
 
-
-# ... (copy paster teri maa ki chut  )
-
 @app.on_chat_member_updated(filters.group, group=-3)
 async def greet_group(_, member: ChatMemberUpdated):
     chat_id = member.chat.id
-    A = await wlcm.find_one(chat_id)  # Corrected this line
-    if not A:
-        return
+    A = await wlcm.find_one(chat_id)
     if (
         not member.new_chat_member
         or member.new_chat_member.status in {"banned", "left", "restricted"}
@@ -98,12 +86,12 @@ async def greet_group(_, member: ChatMemberUpdated):
             member.chat.id,
             photo=welcomeimg,
             caption=f"""
-**Wᴇʟᴄᴏᴍᴇ Tᴏ {member.chat.title}
-➖➖➖➖➖➖➖➖➖➖➖➖
-Nᴀᴍᴇ ✧ {user.mention}
-Iᴅ ✧ {user.id}
-Usᴇʀɴᴀᴍᴇ ✧ @{user.username}
-➖➖➖➖➖➖➖➖➖➖➖➖**
+𝗪𝗲𝗹𝗰𝗼𝗺𝗲 𝗧𝗼 {member.chat.title}
+➖➖➖➖➖➖➖➖➖➖➖
+𝗡𝗔𝗠𝗘 ✧ {user.mention}
+𝗜𝗗 ✧ {user.id}
+𝐔𝐒𝐄𝐑𝐍𝐀𝐌𝐄 ✧ @{user.username}
+➖➖➖➖➖➖➖➖➖➖➖
 """,
             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(f"⦿ ᴀᴅᴅ ᴍᴇ ⦿", url=f"https://t.me/BRANDED_KUDI_BOT?startgroup=true")]])
         )
@@ -115,17 +103,15 @@ Usᴇʀɴᴀᴍᴇ ✧ @{user.username}
     except Exception as e:
         pass
 
-# ... (resfuxbk 
-
 @app.on_message(filters.new_chat_members & filters.group, group=-1)
 async def bot_wel(_, message):
     for u in message.new_chat_members:
         if u.id == app.me.id:
             await app.send_message(LOG_CHANNEL_ID, f"""
-**NEW GROUP
-➖➖➖➖➖➖➖➖➖➖➖➖
-NAME: {message.chat.title}
-ID: {message.chat.id}
-USERNAME: @{message.chat.username}
-➖➖➖➖➖➖➖➖➖➖➖➖**
+NEW GROUP
+➖➖➖➖➖➖➖➖➖➖➖
+𝗡𝗔𝗠𝗘: {message.chat.title}
+𝗜𝗗: {message.chat.id}
+𝐔𝐒𝐄𝐑𝐍𝐀𝐌𝐄: @{message.chat.username}
+➖➖➖➖➖➖➖➖➖➖➖
 """)
